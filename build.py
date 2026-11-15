@@ -21,7 +21,7 @@ BASE_URL = os.environ.get("BASE_URL", "https://chinesewhitz.github.io/mix-y-medi
 SITIO = "Mix & Medios"
 LEMA = "El blog de Comunicaciones de Marketing"
 WHATSAPP = "https://wa.me/51966454742?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20de%20IronBites"
-WEB_IRONBITES = "https://sites.google.com/view/ironbites/full-page-embed"
+WEB_IRONBITES = "https://sites.google.com/view/ironbites/ironbites"
 
 EQUIPO = [
     ("Stefano Alessandro", "Carassa Vente"),
