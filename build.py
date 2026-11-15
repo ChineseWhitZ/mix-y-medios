@@ -136,7 +136,23 @@ def cargar_glosario():
     return unicos
 
 
+
 # ------------------------------------------------------------------ plantilla
+TONO = {
+    "fundamentos": "azul", "marca": "morado", "creatividad": "naranja", "planificacion": "verde",
+    "consumidor": "pizarra", "medios-masivos": "azul", "relaciones-publicas": "morado",
+    "medios-alternativos": "naranja", "digital": "verde", "repaso": "pizarra",
+}
+ABREV = {
+    "fundamentos": "CM", "marca": "Ma", "creatividad": "Cr", "planificacion": "Pl", "consumidor": "Co",
+    "medios-masivos": "MM", "relaciones-publicas": "RP", "medios-alternativos": "MA", "digital": "D", "repaso": "R",
+}
+CORTO = {
+    "fundamentos": "Fundamentos", "marca": "Marca", "creatividad": "Creatividad", "planificacion": "Planificación",
+    "consumidor": "Consumidor", "medios-masivos": "Medios masivos", "relaciones-publicas": "RR. PP.",
+    "medios-alternativos": "Alternativos", "digital": "Digital", "repaso": "Repaso",
+}
+
 ICONO_SOL = '<svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
 ICONO_LUNA = '<svg class="luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'
 ICONO_MENU = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
@@ -154,8 +170,42 @@ NAV = [
 ]
 
 
+def logo(r):
+    return (f'<a class="logo" href="{r}index.html" aria-label="{e(SITIO)}, ir al inicio">'
+            '<span class="logo-marca" aria-hidden="true">M&amp;M</span>'
+            '<span class="logo-texto">Mix&amp;Medios</span><span class="logo-sub">blog</span></a>')
+
+
+def cierre(r):
+    opciones = "".join(f'<option value="{k}">{e(v[0])}</option>' for k, v in CATS.items())
+    return f"""
+<section class="cierre" aria-labelledby="cierre-titulo">
+  <div class="contenedor cierre-grid">
+    <div>
+      <h2 id="cierre-titulo">Repasa el curso a tu ritmo</h2>
+      <p>¿Tienes examen o exposición? Busca el tema que necesitas y llega con los conceptos claros. Cada entrada termina con un quiz de tres preguntas.</p>
+      <div class="cierre-datos">
+        <div><small>Semanas</small><strong>15</strong></div>
+        <div><small>Caso aplicado</small><strong>IronBites</strong></div>
+      </div>
+      <p style="margin-top:22px"><a class="enlace-claro" href="{r}glosario.html">Abrir el glosario</a> · <a class="enlace-claro" href="{r}producto.html">Ver el caso IronBites</a></p>
+    </div>
+    <form class="tarjeta-blanca" action="{r}blog.html" method="get">
+      <h3>Encuentra tu tema.</h3>
+      <p>Elige una unidad o escribe un concepto.</p>
+      <label for="cierre-cat">¿Qué unidad quieres repasar?</label>
+      <select id="cierre-cat" name="cat"><option value="">Todas las unidades</option>{opciones}</select>
+      <label for="cierre-q">¿Qué concepto buscas?</label>
+      <input id="cierre-q" name="q" type="search" placeholder="Por ejemplo: rating, Big Idea, long tail">
+      <button class="btn" type="submit"><span>Buscar en el blog</span><span aria-hidden="true">→</span></button>
+      <p class="nota">Se abrirá el blog con tu búsqueda aplicada.</p>
+    </form>
+  </div>
+</section>"""
+
+
 def pagina(*, ruta, titulo, descripcion, cuerpo, actual="", imagen="img/hero.jpg", tipo="website",
-           jsonld=None, extra_body=""):
+           jsonld=None, extra_body="", hero_oscuro=False):
     """ruta: ruta de salida relativa a docs/ (p. ej. 'entradas/x.html')."""
     nivel = ruta.count("/")
     r = "../" * nivel
@@ -163,12 +213,9 @@ def pagina(*, ruta, titulo, descripcion, cuerpo, actual="", imagen="img/hero.jpg
     assert len(descripcion) <= 160, f"descripción larga ({len(descripcion)}): {descripcion}"
     url = BASE_URL + ("" if ruta == "index.html" else ruta)
     marca = ' aria-current="page"'
-    nav = "".join(
-        f'<a href="{r}{href}"{marca if href == actual else ""}>{txt}</a>' for href, txt in NAV
-    )
-    ld = ""
-    if jsonld:
-        ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>'
+    nav = "".join(f'<a href="{r}{href}"{marca if href == actual else ""}>{txt}</a>' for href, txt in NAV)
+    ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
+    clase_cab = "cabecera sobre-hero" if hero_oscuro else "cabecera"
     return f"""<!DOCTYPE html>
 <html lang="es-PE">
 <head>
@@ -184,50 +231,59 @@ def pagina(*, ruta, titulo, descripcion, cuerpo, actual="", imagen="img/hero.jpg
 <meta property="og:url" content="{e(url)}">
 <meta property="og:image" content="{e(BASE_URL + imagen)}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#16161d">
+<meta name="theme-color" content="#061e50">
 <link rel="icon" href="{r}img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{r}css/estilos.css?v={VERSION}">
 <script>try{{var t=localStorage.getItem("myd-tema");if(t)document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
 {ld}
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
-<header class="cabecera">
+<div class="promo"><div class="contenedor"><strong>Trabajo final · Comunicaciones de Marketing</strong><span>ESAN 2026-2 · Sección S-006</span><a href="{r}producto.html">Ver el caso</a></div></div>
+<header class="{clase_cab}" id="cabecera">
   <div class="contenedor">
-    <a class="logo" href="{r}index.html" aria-label="{e(SITIO)}, ir al inicio"><span class="logo-marca" aria-hidden="true">M</span><span>Mix <b>&amp;</b> Medios</span></a>
-    <nav class="nav" id="nav" aria-label="Principal">{nav}</nav>
-    <button class="btn-icono menu-btn" id="menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">{ICONO_MENU}</button>
-    <button class="btn-icono" id="tema" aria-label="Cambiar tema">{ICONO_SOL}{ICONO_LUNA}</button>
+    <div class="cabecera-barra">
+      {logo(r)}
+      <nav class="nav" id="nav" aria-label="Principal">{nav}</nav>
+      <div class="acciones">
+        <a class="pill pill-borde" href="{r}blog.html">{ICONO_LUPA.replace('<svg ', '<svg width="18" height="18" ')} Buscar</a>
+        <a class="pill pill-azul" href="{r}producto.html">IronBites</a>
+        <a class="pill pill-blanca pill-blanca-hero" href="{r}producto.html">IronBites</a>
+        <button class="btn-icono" id="tema" aria-label="Cambiar tema">{ICONO_SOL}{ICONO_LUNA}</button>
+        <button class="btn-icono menu-btn" id="menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">{ICONO_MENU}</button>
+      </div>
+    </div>
   </div>
 </header>
 <main id="contenido">
 {cuerpo}
 </main>
+{cierre(r)}
 <footer class="pie">
   <div class="contenedor">
     <div class="pie-grid">
       <div>
-        <a class="logo" href="{r}index.html"><span class="logo-marca" aria-hidden="true">M</span><span>Mix <b>&amp;</b> Medios</span></a>
-        <p style="margin-top:12px">{e(LEMA)}. Apuntes, casos y ejercicios de las 15 semanas del curso, aplicados a IronBites.</p>
+        {logo(r)}
+        <p style="margin-top:16px;max-width:24em">{e(LEMA)}: apuntes, casos y quizzes de las 15 semanas, aplicados a IronBites.</p>
       </div>
       <div>
-        <h2>Secciones</h2>
+        <h2>Explorar</h2>
         <ul>{"".join(f'<li><a href="{r}{h}">{t}</a></li>' for h, t in NAV)}</ul>
       </div>
       <div>
         <h2>El curso</h2>
         <ul>
           <li>Comunicaciones de Marketing</li>
-          <li>Universidad ESAN · 2026-2 · Sección S-006</li>
+          <li>Universidad ESAN · 2026-2 · S-006</li>
           <li>Prof. Mario Alonso Gallo Medina</li>
           <li><a href="{WEB_IRONBITES}" target="_blank" rel="noopener">Web de marca IronBites</a></li>
         </ul>
       </div>
     </div>
-    <p class="pie-legal">© <span id="anio">2026</span> Equipo Mix &amp; Medios. Proyecto académico sin fines comerciales. IronBites es una propuesta de producto ficticia creada para el curso; Pícaras y las demás marcas citadas pertenecen a sus dueños. Imágenes de portada generadas con IA.</p>
+    <p class="pie-legal">© <span id="anio">2026</span> Equipo Mix &amp; Medios. Proyecto académico sin fines comerciales. IronBites es una propuesta de producto ficticia creada para el curso; Pícaras y las demás marcas citadas pertenecen a sus dueños. Las imágenes son ilustrativas y se generaron con IA.</p>
   </div>
 </footer>
 {extra_body}
@@ -238,16 +294,17 @@ def pagina(*, ruta, titulo, descripcion, cuerpo, actual="", imagen="img/hero.jpg
 
 
 def tarjeta(p, r):
-    cat = CATS[p["categoria"]][0]
+    k = p["categoria"]
+    cat = CATS[k][0]
     texto = " ".join([p["titulo"], p["resumen"], p["keyword"], " ".join(p.get("etiquetas", [])), cat, f"semana {p['semana']}"])
-    return f"""<article class="tarjeta" data-cat="{e(p['categoria'])}" data-texto="{e(texto)}">
-  <div class="tarjeta-img"><img src="{r}{IMG_CAT[p['categoria']]}" alt="Ilustración de la categoría {e(cat)}" loading="lazy" width="1200" height="671"></div>
+    return f"""<article class="tarjeta tono-{TONO[k]}" data-cat="{e(k)}" data-texto="{e(texto)}">
   <div class="tarjeta-cuerpo">
-    <span class="etiqueta-semana">Semana {p['semana']}</span>
+    <span class="etiqueta-semana">Semana {p['semana']} · {e(CORTO[k])}</span>
     <h3><a href="{r}entradas/{p['slug']}.html">{e(p['titulo'])}</a></h3>
     <p>{e(p['resumen'])}</p>
-    <div class="tarjeta-meta"><a class="chip" href="{r}categoria/{p['categoria']}.html">{e(cat)}</a><span>{p['minutos']} min de lectura</span></div>
+    <div class="tarjeta-meta"><span>{p['minutos']} min de lectura</span></div>
   </div>
+  <div class="tarjeta-img"><img src="{r}{IMG_CAT[k]}" alt="" loading="lazy" width="1200" height="671"></div>
 </article>"""
 
 
@@ -268,90 +325,110 @@ def ruta_curso(posts, r):
 def pag_inicio(posts, glosario):
     r = ""
     recientes = sorted(posts, key=lambda p: (p["semana"], p["archivo"]), reverse=True)[:6]
-    cats = "".join(
-        f'<a class="cat" href="categoria/{k}.html"><img src="{IMG_CAT[k]}" alt="" loading="lazy" width="64" height="64">'
-        f'<span><strong>{e(v[0])}</strong><span>{sum(1 for p in posts if p["categoria"] == k)} entradas · {e(v[1])}</span></span></a>'
-        for k, v in CATS.items()
+    tiles = "".join(
+        f'<a class="tile tono-{TONO[k]}" href="categoria/{k}.html"><i aria-hidden="true">{ABREV[k]}</i>{e(CORTO[k])}</a>'
+        for k in CATS
     )
+    claves = list(CATS)
+    botones = "".join(
+        f'<button type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{e(CORTO[k])}</button>'
+        for i, k in enumerate(claves)
+    )
+    paneles = []
+    for i, k in enumerate(claves):
+        nombre, desc, semanas = CATS[k]
+        ps = [p for p in posts if p["categoria"] == k]
+        lista = "".join(f'<li><a href="entradas/{p["slug"]}.html">{e(p["titulo"])}</a></li>' for p in ps)
+        paneles.append(f"""<div class="panel-grande tono-{TONO[k]}" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"{"" if i == 0 else " hidden"}>
+  <div class="texto">
+    <span class="etiqueta-semana">Semana{"s" if len(semanas) > 1 else ""} {", ".join(map(str, semanas))}</span>
+    <h3>{e(nombre)}</h3>
+    <p>{e(desc)}</p>
+    <ul>{lista}</ul>
+    <a class="enlace-raya" href="categoria/{k}.html">Ver la unidad completa</a>
+  </div>
+  <img src="{IMG_CAT[k]}" alt="" loading="lazy" width="1200" height="671">
+</div>""")
     cuerpo = f"""
-<section class="hero">
-  <div class="contenedor hero-grid">
-    <div>
-      <span class="chip coral kicker">Comunicaciones de Marketing · ESAN 2026-2</span>
-      <h1>Todo el curso de comunicaciones de marketing, <em>en un blog</em></h1>
-      <p class="bajada">Mix &amp; Medios reúne las 15 semanas del curso en entradas cortas, con ejemplos peruanos, un glosario, quizzes y un caso real que aplicamos de principio a fin: <strong>IronBites</strong>.</p>
-      <div class="hero-acciones">
-        <a class="btn" href="blog.html">Leer el blog</a>
-        <a class="btn secundario" href="producto.html">Ver el caso IronBites</a>
-      </div>
-      <div class="cifras">
-        <div class="cifra"><strong>15</strong><span>semanas</span></div>
-        <div class="cifra"><strong>{len(posts)}</strong><span>entradas</span></div>
-        <div class="cifra"><strong>{len(glosario)}</strong><span>términos</span></div>
-        <div class="cifra"><strong>{len(posts) * 3}</strong><span>preguntas de quiz</span></div>
+<section class="hero-foto" style="background-image:url('img/hero.jpg')">
+  <div class="contenedor">
+    <h1>Lo que aprendimos en 15 semanas. Explicado para que no se te olvide.</h1>
+    <p class="bajada">Mix &amp; Medios reúne todo el curso de comunicaciones de marketing en un blog: {len(posts)} entradas, un glosario de {len(glosario)} términos, quizzes y un caso aplicado de principio a fin, IronBites.</p>
+    <div class="hero-acciones">
+      <a class="btn blanco" href="blog.html">Leer el blog</a>
+      <a class="enlace-claro" href="producto.html">Ver el caso IronBites</a>
+    </div>
+    <nav class="hero-tiles" aria-label="Categorías">{tiles}</nav>
+  </div>
+</section>
+
+<div class="hoja">
+  <section class="contenedor" aria-labelledby="explora">
+    <div class="intro-2col">
+      <h2 id="explora">Marca, medios, RR. PP. y digital, en un solo lugar</h2>
+      <p>Diez unidades del sílabo, cada una con sus entradas, ejemplos peruanos y un recuadro que muestra cómo lo aplicamos en IronBites. ¿No sabes por dónde empezar? <a href="entradas/{posts[0]['slug']}.html">Empieza por la semana 1</a>.</p>
+    </div>
+    <div class="explorador">
+      <div class="explorador-top"><span>Desliza para descubrir</span><span id="explorador-num">01 / {len(claves):02d}</span></div>
+      <div class="segmentos" role="tablist" aria-label="Unidades del curso">{botones}</div>
+      {"".join(paneles)}
+      <p class="nota">Las imágenes son ilustrativas.</p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="seccion-cabeza"><div><h2>Últimas entradas</h2><p>De la semana 15 hacia atrás.</p></div><a class="btn secundario" href="blog.html">Ver todas</a></div>
+      <div class="rejilla">{"".join(tarjeta(p, r) for p in recientes)}</div>
+    </div>
+  </section>
+
+  <section class="contenedor">
+    <div class="oscura">
+      <div class="oscura-grid">
+        <div>
+          <span class="kicker">Caso del curso</span>
+          <p class="grande">Un ejemplo de principio a fin: la galleta de Pícaras con hierro. Cada tema del curso se aplica a IronBites, desde el FODA hasta el spot, las relaciones públicas y la web.</p>
+          <div class="hero-acciones">
+            <a class="btn blanco" href="producto.html">Conocer IronBites</a>
+            <a class="enlace-claro" href="entradas/plan-de-comunicaciones-integradas-caso-ironbites.html">Leer el plan completo</a>
+          </div>
+        </div>
+        <img src="img/ironbites.jpg" alt="Paquete de galletas IronBites con hierro y chispas de chocolate" loading="lazy" width="1168" height="880">
       </div>
     </div>
-    <div class="hero-img"><img src="img/hero.jpg" alt="Ilustración de un escritorio con megáfono, celular, periódico, radio y televisor: los medios del marketing" width="1344" height="752"></div>
-  </div>
-</section>
+  </section>
 
-<section class="seccion">
-  <div class="contenedor">
-    <div class="seccion-cabeza"><div><h2>Últimas entradas</h2><p>Lo más reciente del curso, de la semana 15 hacia atrás.</p></div><a class="btn secundario" href="blog.html">Ver todas</a></div>
-    <div class="rejilla">{"".join(tarjeta(p, r) for p in recientes)}</div>
-  </div>
-</section>
-
-<section class="seccion">
-  <div class="contenedor">
-    <div class="destacada">
-      <div class="tarjeta-img"><img src="img/ironbites.jpg" alt="Paquete de galletas IronBites con hierro y chispas de chocolate" loading="lazy" width="1168" height="880" style="height:100%;object-fit:cover"></div>
-      <div class="destacada-cuerpo">
-        <span class="chip" style="align-self:flex-start;background:var(--ib-y);color:var(--ib-br)">Caso del curso</span>
-        <h2>IronBites: tu nuevo Power-Up contra la anemia</h2>
-        <p>La galleta de Pícaras fortificada con hierro que usamos para aplicar cada tema: diagnóstico, Big Idea, spot, RR. PP., trade marketing, web, SEO y redes.</p>
-        <a class="btn" href="producto.html">Conocer el producto</a>
-      </div>
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="intro-2col"><h2>La ruta de las 15 semanas</h2><p>Haz clic en una entrada para ir directo al tema de esa semana.</p></div>
+      {ruta_curso(posts, r)}
     </div>
-  </div>
-</section>
-
-<section class="seccion alt">
-  <div class="contenedor">
-    <div class="seccion-cabeza"><div><h2>Explora por categoría</h2><p>Cada categoría agrupa una unidad del sílabo.</p></div><a class="btn secundario" href="categorias.html">Todas las categorías</a></div>
-    <div class="cats">{cats}</div>
-  </div>
-</section>
-
-<section class="seccion">
-  <div class="contenedor">
-    <div class="seccion-cabeza"><div><h2>La ruta de las 15 semanas</h2><p>Haz clic en una entrada para ir directo al tema de esa semana.</p></div></div>
-    {ruta_curso(posts, r)}
-  </div>
-</section>
+  </section>
+</div>
 """
     ld = {"@context": "https://schema.org", "@type": "Blog", "name": SITIO, "description": LEMA,
           "url": BASE_URL, "inLanguage": "es-PE"}
     return pagina(ruta="index.html", titulo="Mix & Medios: blog de comunicaciones de marketing",
                   descripcion="Blog con las 15 semanas del curso de comunicaciones de marketing: marca, creatividad, medios, RR. PP., SEO y redes, aplicadas al caso IronBites.",
-                  cuerpo=cuerpo, actual="index.html", jsonld=ld)
+                  cuerpo=cuerpo, actual="index.html", jsonld=ld, hero_oscuro=True)
 
 
 def pag_blog(posts):
     r = ""
     chips = '<button type="button" data-cat="todas" aria-pressed="true">Todas</button>' + "".join(
-        f'<button type="button" data-cat="{k}" aria-pressed="false">{e(v[0])}</button>' for k, v in CATS.items()
+        f'<button type="button" data-cat="{k}" aria-pressed="false">{e(CORTO[k])}</button>' for k in CATS
     )
     cuerpo = f"""
 <div class="contenedor">
   <header class="pagina-cabeza">
     <nav class="migas" aria-label="Migas de pan"><a href="index.html">Inicio</a> / Blog</nav>
     <h1>Blog de comunicaciones de marketing</h1>
-    <p>Todas las entradas del curso, semana por semana. Busca un concepto (por ejemplo «rating», «Big Idea» o «long tail») o filtra por categoría.</p>
+    <p>Todas las entradas del curso, semana por semana. Busca un concepto (por ejemplo «rating», «Big Idea» o «long tail») o filtra por unidad.</p>
   </header>
   <div class="filtros">
     <label class="buscador"><span class="sr-only">Buscar en el blog</span>{ICONO_LUPA}<input id="buscar" type="search" placeholder="Buscar conceptos, autores o marcas…" autocomplete="off"></label>
-    <div class="chips" id="chips-cat" role="group" aria-label="Filtrar por categoría">{chips}</div>
+    <div class="chips" id="chips-cat" role="group" aria-label="Filtrar por unidad">{chips}</div>
     <p class="contador" id="contador" aria-live="polite"></p>
   </div>
   <div class="rejilla" id="lista-blog">{"".join(tarjeta(p, r) for p in posts)}</div>
@@ -370,24 +447,26 @@ def pag_categorias(posts):
         ps = [p for p in posts if p["categoria"] == k]
         lista = "".join(f'<li><a href="entradas/{p["slug"]}.html">{e(p["titulo"])}</a></li>' for p in ps)
         sem = ", ".join(str(s) for s in semanas)
-        bloques.append(f"""<div class="bloque">
-  <img src="{IMG_CAT[k]}" alt="Ilustración de {e(nombre)}" loading="lazy" width="1200" height="671" style="border-radius:10px;margin-bottom:14px;aspect-ratio:16/9;object-fit:cover">
-  <span class="etiqueta-semana">Semana{"s" if len(semanas) > 1 else ""} {sem}</span>
-  <h2 style="font-size:1.4rem;margin-top:4px"><a href="categoria/{k}.html" style="color:var(--ink);text-decoration:none">{e(nombre)}</a></h2>
-  <p>{e(desc)}</p>
-  <ul>{lista}</ul>
-  <p class="ver" style="margin-top:12px"><a href="categoria/{k}.html">Ver categoría →</a></p>
+        bloques.append(f"""<div class="panel-grande tono-{TONO[k]}" style="margin-top:0">
+  <div class="texto">
+    <span class="etiqueta-semana">Semana{"s" if len(semanas) > 1 else ""} {sem}</span>
+    <h3>{e(nombre)}</h3>
+    <p>{e(desc)}</p>
+    <ul>{lista}</ul>
+    <a class="enlace-raya" href="categoria/{k}.html">Ver la unidad completa</a>
+  </div>
+  <img src="{IMG_CAT[k]}" alt="" loading="lazy" width="1200" height="671">
 </div>""")
     cuerpo = f"""
 <div class="contenedor">
   <header class="pagina-cabeza">
     <nav class="migas" aria-label="Migas de pan"><a href="index.html">Inicio</a> / Categorías</nav>
     <h1>Categorías del curso de comunicaciones de marketing</h1>
-    <p>El sílabo ordenado en diez categorías. Cada una reúne las entradas de su unidad y termina aplicada al caso IronBites.</p>
+    <p>El sílabo ordenado en diez unidades. Cada una reúne sus entradas y termina aplicada al caso IronBites.</p>
   </header>
-  <div class="bloques">{"".join(bloques)}</div>
+  <div style="display:grid;gap:18px">{"".join(bloques)}</div>
   <section class="seccion" style="padding-bottom:0">
-    <h2>Ruta del curso semana a semana</h2>
+    <div class="intro-2col"><h2>Ruta del curso semana a semana</h2><p>Las semanas 6 y 7 fueron de repaso y evaluación parcial; la 15, la exposición final.</p></div>
     {ruta_curso(posts, r)}
   </section>
 </div>
@@ -405,12 +484,15 @@ def pag_categoria(k, posts):
     descripcion = f"Entradas de {nombre.lower()} del curso de comunicaciones de marketing: {desc[0].lower() + desc[1:]}"[:160]
     cuerpo = f"""
 <div class="contenedor">
-  <header class="pagina-cabeza">
-    <nav class="migas" aria-label="Migas de pan"><a href="../index.html">Inicio</a> / <a href="../categorias.html">Categorías</a> / {e(nombre)}</nav>
-    <span class="etiqueta-semana">Semana{"s" if len(semanas) > 1 else ""} {", ".join(map(str, semanas))}</span>
-    <h1>{e(nombre)}</h1>
-    <p>{e(desc)} {len(ps)} entrada{"s" if len(ps) != 1 else ""} en esta categoría.</p>
-  </header>
+  <div class="cabeza-tinte tono-{TONO[k]}">
+    <div>
+      <nav class="migas" aria-label="Migas de pan"><a href="../index.html">Inicio</a> / <a href="../categorias.html">Categorías</a> / {e(nombre)}</nav>
+      <span class="etiqueta-semana">Semana{"s" if len(semanas) > 1 else ""} {", ".join(map(str, semanas))}</span>
+      <h1>{e(nombre)}</h1>
+      <p style="font-size:1.15rem;color:var(--muted)">{e(desc)} {len(ps)} entrada{"s" if len(ps) != 1 else ""} en esta categoría.</p>
+    </div>
+    <img src="../{IMG_CAT[k]}" alt="" width="1200" height="671">
+  </div>
   <div class="rejilla">{"".join(tarjeta(p, r) for p in ps)}</div>
 </div>
 """
@@ -419,12 +501,14 @@ def pag_categoria(k, posts):
 
 
 def pag_post(p, posts):
+    from urllib.parse import quote
     r = "../"
+    k = p["categoria"]
     i = posts.index(p)
     ant = posts[i - 1] if i > 0 else None
     sig = posts[i + 1] if i < len(posts) - 1 else None
-    cat = CATS[p["categoria"]][0]
-    relacionadas = [q for q in posts if q["categoria"] == p["categoria"] and q is not p]
+    cat = CATS[k][0]
+    relacionadas = [q for q in posts if q["categoria"] == k and q is not p]
     for q in (ant, sig) + tuple(posts):
         if len(relacionadas) >= 3:
             break
@@ -447,7 +531,6 @@ def pag_post(p, posts):
   <button class="btn" type="submit">Revisar respuestas</button><span class="resultado" aria-live="polite"></span>
 </form>"""
     url = BASE_URL + f"entradas/{p['slug']}.html"
-    from urllib.parse import quote
     compartir = f"""<div class="compartir"><span>Compartir:</span>
   <a href="https://wa.me/?text={quote(p['titulo'] + ' ' + url)}" target="_blank" rel="noopener">WhatsApp</a>
   <a href="https://www.linkedin.com/sharing/share-offsite/?url={quote(url)}" target="_blank" rel="noopener">LinkedIn</a>
@@ -464,13 +547,17 @@ def pag_post(p, posts):
 <article>
   <header class="articulo-cabeza">
     <div class="contenedor">
-      <nav class="migas" aria-label="Migas de pan"><a href="../index.html">Inicio</a> / <a href="../blog.html">Blog</a> / <a href="../categoria/{p['categoria']}.html">{e(cat)}</a></nav>
-      <span class="etiqueta-semana">Semana {p['semana']} · {e(cat)}</span>
-      <h1>{e(p['titulo'])}</h1>
-      <div class="articulo-meta"><span>Por Equipo Mix &amp; Medios</span><span>·</span><span>{p['minutos']} min de lectura</span><span>·</span><span>{p['palabras']} palabras</span></div>
+      <div class="cabeza-tinte tono-{TONO[k]}">
+        <div>
+          <nav class="migas" aria-label="Migas de pan"><a href="../index.html">Inicio</a> / <a href="../blog.html">Blog</a> / <a href="../categoria/{k}.html">{e(cat)}</a></nav>
+          <span class="etiqueta-semana">Semana {p['semana']} · {e(cat)}</span>
+          <h1>{e(p['titulo'])}</h1>
+          <div class="articulo-meta"><span>Por Equipo Mix &amp; Medios</span><span>·</span><span>{p['minutos']} min de lectura</span><span>·</span><span>{p['palabras']} palabras</span></div>
+        </div>
+        <img src="../{IMG_CAT[k]}" alt="Imagen ilustrativa de {e(cat.lower())}" width="1200" height="671">
+      </div>
     </div>
   </header>
-  <figure class="articulo-portada"><img src="../{IMG_CAT[p['categoria']]}" alt="Ilustración editorial sobre {e(cat.lower())}" width="1200" height="671"></figure>
   <div class="articulo-layout">
     <div>
       <div class="prosa">{p['cuerpo']}</div>
@@ -491,11 +578,11 @@ def pag_post(p, posts):
 """
     ld = {"@context": "https://schema.org", "@type": "BlogPosting", "headline": p["titulo"],
           "description": p["descripcion"], "inLanguage": "es-PE", "keywords": p["keyword"],
-          "image": BASE_URL + IMG_CAT[p["categoria"]], "url": url, "wordCount": p["palabras"],
+          "image": BASE_URL + IMG_CAT[k], "url": url, "wordCount": p["palabras"],
           "author": {"@type": "Organization", "name": "Equipo Mix & Medios"},
           "publisher": {"@type": "Organization", "name": SITIO}}
     return pagina(ruta=f"entradas/{p['slug']}.html", titulo=p["seo_title"], descripcion=p["descripcion"],
-                  cuerpo=cuerpo, actual="blog.html", imagen=IMG_CAT[p["categoria"]], tipo="article", jsonld=ld)
+                  cuerpo=cuerpo, actual="blog.html", imagen=IMG_CAT[k], tipo="article", jsonld=ld)
 
 
 def enlace_post(posts, semana, r=""):
@@ -506,76 +593,68 @@ def enlace_post(posts, semana, r=""):
 def pag_producto(posts):
     L = lambda s: enlace_post(posts, s)
     cuerpo = f"""
-<section class="ib-hero">
-  <div class="contenedor hero-grid">
+<div class="contenedor">
+  <section class="ib-hero">
     <div>
       <span class="chip">Caso integrador del curso</span>
-      <h1 style="margin-top:14px">IronBites: galletas con <span>hierro</span> y el sabor de siempre</h1>
+      <h1 style="margin-top:16px">IronBites: galletas con <span>hierro</span> y el sabor de siempre</h1>
       <p>La nueva línea de Pícaras fortificada con hierro: la misma galleta crocante bañada en chocolate, con chispas de cacao de la selva peruana y unos 7 mg de hierro por porción.</p>
-      <p style="font-family:var(--serif);font-size:1.4rem;font-style:italic">«El sabor divertido de siempre, con la fuerza del hierro para ti.»</p>
+      <p class="lema">«El sabor divertido de siempre, con la fuerza del hierro para ti.»</p>
       <div class="hero-acciones">
-        <a class="btn" href="{WHATSAPP}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
-        <a class="btn secundario" href="{WEB_IRONBITES}" target="_blank" rel="noopener">Ver la web de marca</a>
+        <a class="btn" href="{WHATSAPP}" target="_blank" rel="noopener" style="background:var(--ib-r)">Escríbenos por WhatsApp</a>
+        <a class="enlace-raya" href="{WEB_IRONBITES}" target="_blank" rel="noopener">Ver la web de marca</a>
       </div>
     </div>
-    <div class="hero-img"><img src="img/ironbites.jpg" alt="Paquete amarillo y rojo de galletas IronBites con un sello de 7 mg de hierro" width="1168" height="880"></div>
-  </div>
-</section>
+    <img src="img/ironbites.jpg" alt="Paquete amarillo y rojo de galletas IronBites con un sello de 7 mg de hierro" width="1168" height="880">
+  </section>
 
-<section class="seccion">
-  <div class="contenedor">
+  <section class="seccion" style="padding-bottom:0">
     <div class="ib-datos">
       <div class="ib-dato"><strong>30 g</strong><span>por porción, formato fácil de llevar</span></div>
       <div class="ib-dato"><strong>~7 mg</strong><span>de hierro hemínico, sin sabor metálico</span></div>
       <div class="ib-dato"><strong>17–24</strong><span>años: jóvenes NSE B y C de Lima</span></div>
       <div class="ib-dato"><strong>34,9 %</strong><span>de niños de 6 a 35 meses con anemia en 2025 (INEI)</span></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="seccion alt">
-  <div class="contenedor">
-    <h2>Propuesta de valor</h2>
-    <p class="cita-grande">«Disfruta el sabor y la picardía de Pícaras, ahora con aporte de hierro, en una alternativa práctica que combina nutrición y sabor sin dejar de disfrutar.»</p>
-    <div class="bloques" style="margin-top:28px">
-      <div class="bloque"><h3>Puntos de diferencia</h3><ul><li>Hierro dentro de una galleta de consumo diario.</li><li>Indulgencia y nutrición en un mismo snack.</li><li>Respaldo de una marca que el público ya conoce.</li><li>Personalidad divertida aplicada a un tema serio.</li></ul><p class="ver"><a href="{L(2)}">Cómo se construye una marca →</a></p></div>
-      <div class="bloque"><h3>Diagnóstico y estrategia</h3><p>Cinco fuerzas con intermediarios de poder alto y rivalidad alta; FODA cruzado con estrategia <strong>DO – Innovación y diversificación</strong> de la categoría.</p><p class="ver"><a href="{L(4)}">Planificación CIM →</a></p></div>
-      <div class="bloque"><h3>Objetivos a diciembre de 2026</h3><ul><li><strong>Negocio:</strong> +10 % de ventas de galletas fortificadas.</li><li><strong>Comportamiento:</strong> 15 % con intención de probar.</li><li><strong>Imagen:</strong> 25 % asocia la categoría con nutrición y sabor.</li></ul></div>
-      <div class="bloque"><h3>Buyer persona: Jorge</h3><p>Universitario que come snacks entre clases, estudiando o fuera de casa. Quiere rendir todo el día sin complicar su rutina.</p><p class="ver"><a href="{L(5)}">Viaje del consumidor →</a></p></div>
+  <section class="seccion">
+    <div class="intro-2col"><h2>Propuesta de valor</h2><p class="cita-grande" style="font-size:clamp(1.3rem,2.4vw,1.8rem);color:var(--ink)">«Disfruta el sabor y la picardía de Pícaras, ahora con aporte de hierro, en una alternativa práctica que combina nutrición y sabor sin dejar de disfrutar.»</p></div>
+    <div class="bloques">
+      <div class="bloque tono-morado"><h3>Puntos de diferencia</h3><ul><li>Hierro dentro de una galleta de consumo diario.</li><li>Indulgencia y nutrición en un mismo snack.</li><li>Respaldo de una marca que el público ya conoce.</li><li>Personalidad divertida aplicada a un tema serio.</li></ul><p class="ver"><a class="enlace-raya" href="{L(2)}">Cómo se construye una marca</a></p></div>
+      <div class="bloque tono-verde"><h3>Diagnóstico y estrategia</h3><p>Cinco fuerzas con intermediarios de poder alto y rivalidad alta; FODA cruzado con estrategia <strong>DO – Innovación y diversificación</strong> de la categoría.</p><p class="ver"><a class="enlace-raya" href="{L(4)}">Planificación CIM</a></p></div>
+      <div class="bloque tono-azul"><h3>Objetivos a diciembre de 2026</h3><ul><li><strong>Negocio:</strong> +10 % de ventas de galletas fortificadas.</li><li><strong>Comportamiento:</strong> 15 % con intención de probar.</li><li><strong>Imagen:</strong> 25 % asocia la categoría con nutrición y sabor.</li></ul></div>
+      <div class="bloque tono-pizarra"><h3>Buyer persona: Jorge</h3><p>Universitario que come snacks entre clases, estudiando o fuera de casa. Quiere rendir todo el día sin complicar su rutina.</p><p class="ver"><a class="enlace-raya" href="{L(5)}">Viaje del consumidor</a></p></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="seccion">
-  <div class="contenedor">
-    <span class="etiqueta-semana">Big Idea</span>
+  <section class="oscura">
+    <span class="kicker">Big Idea</span>
     <h2>«Tu nuevo Power-Up contra la anemia»</h2>
-    <p style="max-width:46em">El día de un joven es como un videojuego: clases, trabajo, entrenamientos y redes. La anemia es el «Game Over». IronBites es la vida extra que te deja seguir en la partida. <a href="{L(3)}">Así nace una Big Idea →</a></p>
-    <h3 style="margin-top:28px">Guion del spot de TV (30 s)</h3>
+    <p class="grande">El día de un joven es como un videojuego: clases, trabajo, entrenamientos y redes. La anemia es el «Game Over». IronBites es la vida extra que te deja seguir en la partida.</p>
+    <h3 style="color:#fff;margin:32px 0 14px">Guion del spot de TV (30 s)</h3>
     <ol class="guion">
       <li><b>0–7 s · Game over</b>«¡Tengo mil retos por delante y necesito seguir avanzando!»</li>
       <li><b>7–15 s · Power-up</b>«¡IronBites, galletas con hierro para acompañarte en tus retos diarios!»</li>
       <li><b>15–23 s · Level up</b>«¡Nuevo nivel desbloqueado! El sabor de siempre, ahora con vida extra.»</li>
       <li><b>23–30 s · Cierre</b>«¡IronBites, tu nuevo Power-Up contra la anemia!» Texto: <em>Activa tu modo hierro</em>.</li>
     </ol>
-  </div>
-</section>
+    <div class="hero-acciones"><a class="btn blanco" href="{L(3)}">Así nace una Big Idea</a></div>
+  </section>
 
-<section class="seccion alt">
-  <div class="contenedor">
-    <h2>La campaña en todos los medios</h2>
+  <section class="seccion">
+    <div class="intro-2col"><h2>La campaña en todos los medios</h2><p>Una sola idea, el power-up, adaptada a cada formato. Eso es lo que hace integrado al plan.</p></div>
     <div class="bloques">
-      <div class="bloque"><h3>Medios masivos</h3><ul><li>Spot de TV y cuña radial de 30 s.</li><li>Aviso en revista especializada con barra de vida.</li><li>Pantalla LED en la Vía Expresa y lightbox en el Metropolitano.</li><li>Panel frente a universidades y máquinas expendedoras estilo arcade.</li></ul><p class="ver"><a href="{L(8)}">Medios masivos →</a></p></div>
-      <div class="bloque"><h3>Relaciones públicas</h3><ul><li>Press kit «El sabor peruano que combate la anemia».</li><li>Programa social «Mordidas que Suman».</li><li>Cápsulas «Mitos vs. Verdades del Antojo» con micro-influencers.</li><li>«Cabina de Recarga IronBites» en universidades.</li></ul><p class="ver"><a href="{L(10)}">Relaciones públicas →</a></p></div>
-      <div class="bloque"><h3>Trade y promociones</h3><ul><li>Exhibidor «Isla Power-Up» en quioscos universitarios.</li><li>Push: 6 paquetes gratis por cada 2 displays.</li><li>Pull: 2x1.5 con cupón QR en Tambo y Oxxo.</li><li>Pack post-entreno x3 a S/ 5.00 en gimnasios.</li></ul><p class="ver"><a href="{L(11)}">Medios alternativos →</a></p></div>
-      <div class="bloque"><h3>Digital</h3><ul><li>Web de marca con inicio, producto, blog y FAQ.</li><li>SEO y SEM para búsquedas sobre anemia y snacks.</li><li>Contenido y anuncios en TikTok e Instagram.</li></ul><p class="ver"><a href="{L(12)}">Marketing digital →</a></p></div>
+      <div class="bloque tono-azul"><h3>Medios masivos</h3><ul><li>Spot de TV y cuña radial de 30 s.</li><li>Aviso en revista especializada con barra de vida.</li><li>Pantalla LED en la Vía Expresa y lightbox en el Metropolitano.</li><li>Panel frente a universidades y máquinas expendedoras estilo arcade.</li></ul><p class="ver"><a class="enlace-raya" href="{L(8)}">Medios masivos</a></p></div>
+      <div class="bloque tono-morado"><h3>Relaciones públicas</h3><ul><li>Press kit «El sabor peruano que combate la anemia».</li><li>Programa social «Mordidas que Suman».</li><li>Cápsulas «Mitos vs. Verdades del Antojo» con micro-influencers.</li><li>«Cabina de Recarga IronBites» en universidades.</li></ul><p class="ver"><a class="enlace-raya" href="{L(10)}">Relaciones públicas</a></p></div>
+      <div class="bloque tono-naranja"><h3>Trade y promociones</h3><ul><li>Exhibidor «Isla Power-Up» en quioscos universitarios.</li><li>Push: 6 paquetes gratis por cada 2 displays.</li><li>Pull: 2x1.5 con cupón QR en Tambo y Oxxo.</li><li>Pack post-entreno x3 a S/ 5.00 en gimnasios.</li></ul><p class="ver"><a class="enlace-raya" href="{L(11)}">Medios alternativos</a></p></div>
+      <div class="bloque tono-verde"><h3>Digital</h3><ul><li>Web de marca con inicio, producto, blog y FAQ.</li><li>SEO y SEM para búsquedas sobre anemia y snacks.</li><li>Contenido y anuncios en TikTok e Instagram.</li></ul><p class="ver"><a class="enlace-raya" href="{L(12)}">Marketing digital</a></p></div>
     </div>
     <figure style="margin:32px 0 0">
-      <img src="img/campana-ironbites.jpg" alt="Panel con las piezas de la campaña IronBites diseñadas por el equipo" loading="lazy" style="border-radius:18px;width:100%">
-      <figcaption style="font-size:.9rem;color:var(--muted);margin-top:8px">Piezas de campaña del trabajo integrador.</figcaption>
+      <img src="img/campana-ironbites.jpg" alt="Panel con las piezas de la campaña IronBites diseñadas por el equipo" loading="lazy" style="border-radius:var(--r);width:100%">
+      <figcaption class="nota">Piezas de campaña del trabajo integrador.</figcaption>
     </figure>
-  </div>
-</section>
+  </section>
+</div>
 <a class="wa" href="{WHATSAPP}" target="_blank" rel="noopener" aria-label="Escribir a IronBites por WhatsApp">{ICONO_WA}</a>
 """
     return pagina(ruta="producto.html", titulo="IronBites: galletas con hierro | Mix & Medios",
@@ -584,9 +663,9 @@ def pag_producto(posts):
 
 
 def pag_nosotros():
-    colores = ["#ff5a36", "#16161d", "#f2b705", "#d81e2a", "#3b6e8f"]
+    tonos = ["azul", "verde", "morado", "naranja", "pizarra"]
     miembros = "".join(
-        f'<div class="miembro"><div class="avatar" style="background:{colores[i]}" aria-hidden="true">{n[0]}{a[0]}</div>'
+        f'<div class="miembro tono-{tonos[i]}"><div class="avatar" aria-hidden="true">{n[0]}{a[0]}</div>'
         f'<strong>{e(n)}<br>{e(a)}</strong><span>Redacción y caso IronBites</span></div>'
         for i, (n, a) in enumerate(EQUIPO)
     )
@@ -597,19 +676,18 @@ def pag_nosotros():
     <h1>Nosotros: el equipo detrás de Mix &amp; Medios</h1>
     <p>Somos cinco estudiantes del curso de Comunicaciones de Marketing de la Universidad ESAN (2026-2, sección S-006). Creamos este blog para ordenar lo aprendido en las 15 semanas y explicarlo como nos hubiera gustado leerlo.</p>
   </header>
-  <div class="hero-grid">
+  <div class="dos-col">
     <div>
       <h2>Por qué hicimos este blog</h2>
       <p>Durante el ciclo pasamos por más de doce temas: de la teoría de la comunicación a Google Ads. Cada semana aplicamos esos conceptos a un mismo caso, <a href="producto.html">IronBites</a>, una galleta de Pícaras con hierro pensada para jóvenes.</p>
       <p>Aquí cada entrada explica un tema con nuestras palabras, lo conecta con marcas reales y termina con un recuadro que muestra cómo lo usamos en el caso. Al final hay un quiz de tres preguntas para repasar.</p>
-      <h2 style="margin-top:28px">El curso</h2>
       <ul>
         <li><strong>Curso:</strong> Comunicaciones de Marketing</li>
         <li><strong>Universidad:</strong> ESAN · Semestre 2026-2 · Sección S-006</li>
         <li><strong>Profesor:</strong> Mario Alonso Gallo Medina</li>
       </ul>
     </div>
-    <div class="hero-img"><img src="img/equipo.jpg" alt="Ilustración de cinco estudiantes planificando una campaña alrededor de una mesa" width="1200" height="671"></div>
+    <img src="img/equipo.jpg" alt="Estudiantes trabajando juntos en una mesa con laptops y notas" width="1200" height="671">
   </div>
   <section class="seccion" style="padding-bottom:0">
     <h2>El equipo</h2>
@@ -648,11 +726,11 @@ def pag_faq():
         ld_items += [{"@type": "Question", "name": q,
                       "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}} for q, a in qs]
     cuerpo = f"""
-<div class="contenedor" style="max-width:860px">
+<div class="contenedor" style="max-width:960px">
   <header class="pagina-cabeza">
     <nav class="migas" aria-label="Migas de pan"><a href="index.html">Inicio</a> / Preguntas frecuentes</nav>
     <h1>Preguntas frecuentes</h1>
-    <p>Lo que más nos preguntan sobre el blog, el curso y el caso IronBites.</p>
+    <p>Sobre el blog, el curso y el caso IronBites.</p>
   </header>
   <div class="faq">{"".join(secciones)}</div>
 </div>
@@ -678,14 +756,14 @@ def pag_glosario(glosario, posts):
         )
         bloques.append(f'<section class="grupo"><h2 id="letra-{l}">{l}</h2><dl>{items}</dl></section>')
     cuerpo = f"""
-<div class="contenedor" style="max-width:900px">
+<div class="contenedor" style="max-width:960px">
   <header class="pagina-cabeza">
     <nav class="migas" aria-label="Migas de pan"><a href="index.html">Inicio</a> / Glosario</nav>
     <h1>Glosario de comunicaciones de marketing</h1>
     <p>{len(glosario)} conceptos del curso explicados en una o dos frases, con enlace a la semana donde se ven a fondo.</p>
   </header>
   <label class="buscador"><span class="sr-only">Buscar un término</span>{ICONO_LUPA}<input id="buscar-termino" type="search" placeholder="Buscar un término (p. ej. share, ZMOT, CPM)…" autocomplete="off"></label>
-  <p class="contador" id="contador-glosario" aria-live="polite" style="margin-top:10px">{len(glosario)} términos</p>
+  <p class="contador" id="contador-glosario" aria-live="polite" style="margin-top:12px">{len(glosario)} términos</p>
   <nav class="letras" aria-label="Ir a la letra">{letras}</nav>
   <div class="glosario">{"".join(bloques)}</div>
 </div>
@@ -697,7 +775,7 @@ def pag_glosario(glosario, posts):
 
 def pag_404():
     cuerpo = """
-<div class="contenedor" style="text-align:center;padding:80px 16px">
+<div class="contenedor" style="text-align:center;padding:80px 20px">
   <p class="etiqueta-semana">Error 404</p>
   <h1>Esta página se quedó sin señal</h1>
   <p>Como un spot fuera de la tanda: no llegó a su audiencia. Vuelve al inicio o busca en el blog.</p>
@@ -708,7 +786,7 @@ def pag_404():
                   descripcion="La página que buscas no existe. Vuelve al inicio de Mix & Medios.", cuerpo=cuerpo)
 
 
-FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#ff5a36"/><text x="32" y="44" font-family="Arial, sans-serif" font-size="36" font-weight="800" text-anchor="middle" fill="#fff">M</text></svg>"""
+FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0755f5"/><text x="32" y="41" font-family="Arial, sans-serif" font-size="22" font-weight="800" text-anchor="middle" fill="#fff">M&amp;M</text></svg>"""
 
 
 def escribir(ruta, texto):
@@ -720,7 +798,6 @@ def escribir(ruta, texto):
 def main():
     posts = cargar_posts()
     glosario = cargar_glosario()
-    # limpiar salidas generadas
     for carpeta in ("entradas", "categoria"):
         for f in (SALIDA / carpeta).glob("*.html") if (SALIDA / carpeta).exists() else []:
             f.unlink()

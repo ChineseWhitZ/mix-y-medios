@@ -157,6 +157,46 @@
     });
   }
 
+  /* ---------- Cabecera flotante sobre el hero ---------- */
+  var cab = document.getElementById("cabecera");
+  if (cab && cab.classList.contains("sobre-hero")) {
+    var hero = document.querySelector(".hero-foto");
+    var marcarCab = function () {
+      var limite = hero ? hero.offsetTop + 40 : 80;
+      cab.classList.toggle("flotante", window.scrollY > limite);
+    };
+    window.addEventListener("scroll", marcarCab, { passive: true });
+    marcarCab();
+  }
+
+  /* ---------- Explorador por unidades (pestañas segmentadas) ---------- */
+  var lista = document.querySelector('.segmentos[role="tablist"]');
+  if (lista) {
+    var tabs = Array.prototype.slice.call(lista.querySelectorAll('[role="tab"]'));
+    var num = document.getElementById("explorador-num");
+    var activar = function (i, enfocar) {
+      tabs.forEach(function (t, j) {
+        var sel = i === j;
+        t.setAttribute("aria-selected", sel ? "true" : "false");
+        t.tabIndex = sel ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !sel;
+      });
+      if (num) num.textContent = String(i + 1).padStart(2, "0") + " / " + String(tabs.length).padStart(2, "0");
+      tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" });
+      if (enfocar) tabs[i].focus();
+    };
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { activar(i, false); });
+      t.addEventListener("keydown", function (e) {
+        var n = tabs.length;
+        if (e.key === "ArrowRight") { e.preventDefault(); activar((i + 1) % n, true); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); activar((i - 1 + n) % n, true); }
+        if (e.key === "Home") { e.preventDefault(); activar(0, true); }
+        if (e.key === "End") { e.preventDefault(); activar(n - 1, true); }
+      });
+    });
+  }
+
   /* ---------- Año del pie ---------- */
   var anio = document.getElementById("anio");
   if (anio) anio.textContent = new Date().getFullYear();
