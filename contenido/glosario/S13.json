@@ -1,0 +1,57 @@
+[
+ {
+  "t": "Rastrear, indexar y ordenar",
+  "d": "Los tres pasos de Google: recorre la web con robots, guarda cada página en su catálogo y muestra primero las más útiles.",
+  "s": 13
+ },
+ {
+  "t": "SERP",
+  "d": "Página de resultados del buscador, con anuncios, mapa con Perfil de Empresa y resultados orgánicos.",
+  "s": 13
+ },
+ {
+  "t": "Intención de búsqueda",
+  "d": "Lo que quiere la persona al buscar: informativa, navegacional, comercial o transaccional.",
+  "s": 13
+ },
+ {
+  "t": "SEO",
+  "d": "Mejorar la web para aparecer en los resultados orgánicos sin pagar por clic; se apoya en contenido, técnica y autoridad.",
+  "s": 13
+ },
+ {
+  "t": "Palabra clave long tail",
+  "d": "Búsqueda de cuatro o más palabras, con poco volumen pero más intención de compra; puerta de entrada de marcas nuevas.",
+  "s": 13
+ },
+ {
+  "t": "Volumen y dificultad (KD)",
+  "d": "Volumen son las búsquedas al mes; la dificultad indica de 0 a 100 qué tan difícil es salir arriba.",
+  "s": 13
+ },
+ {
+  "t": "SEO local",
+  "d": "Posicionamiento en búsquedas cercanas mediante el Perfil de Empresa de Google, con reseñas y datos del negocio.",
+  "s": 13
+ },
+ {
+  "t": "SEM",
+  "d": "Publicidad en buscadores, en Google con Google Ads: anuncio «Patrocinado» que se paga por clic.",
+  "s": 13
+ },
+ {
+  "t": "Subasta de Google Ads",
+  "d": "Sistema que ordena anuncios según la puja del anunciante más la calidad del anuncio y de la página de destino.",
+  "s": 13
+ },
+ {
+  "t": "Anuncio responsivo de búsqueda",
+  "d": "Anuncio que combina títulos (hasta 30 caracteres) y descripciones (hasta 90) según lo que se busca.",
+  "s": 13
+ },
+ {
+  "t": "CTR, CPC y costo por conversión",
+  "d": "CTR es clics entre impresiones; CPC es costo entre clics; costo por conversión es costo entre conversiones.",
+  "s": 13
+ }
+]

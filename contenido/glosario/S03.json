@@ -1,0 +1,62 @@
+[
+ {
+  "t": "Métrica",
+  "d": "Dato crudo de volumen, como likes o clics; sola puede ser una métrica de vanidad.",
+  "s": 3
+ },
+ {
+  "t": "KPI",
+  "d": "Indicador clave de desempeño: métrica atada a un objetivo comercial que mide rentabilidad.",
+  "s": 3
+ },
+ {
+  "t": "CPM",
+  "d": "Costo por mil impresiones; mide qué tan barato es impactar grandes audiencias.",
+  "s": 3
+ },
+ {
+  "t": "CTR",
+  "d": "Porcentaje de personas que hacen clic sobre quienes vieron el anuncio.",
+  "s": 3
+ },
+ {
+  "t": "ROAS",
+  "d": "Retorno de la inversión publicitaria: ingresos generados por cada unidad invertida.",
+  "s": 3
+ },
+ {
+  "t": "Modelo AIDA",
+  "d": "Secuencia Atención, Interés, Deseo y Acción que sigue el consumidor ante un anuncio.",
+  "s": 3
+ },
+ {
+  "t": "Umbral de percepción",
+  "d": "Inversión mínima necesaria para ser escuchado; por debajo, el gasto se desperdicia.",
+  "s": 3
+ },
+ {
+  "t": "Account Manager",
+  "d": "Ejecutivo de cuentas que conecta cliente y agencia y filtra las ideas con criterio comercial.",
+  "s": 3
+ },
+ {
+  "t": "Brief creativo",
+  "d": "Documento breve de 1 o 2 páginas que convierte el problema de ventas del cliente en un desafío creativo.",
+  "s": 3
+ },
+ {
+  "t": "Big Idea",
+  "d": "Plataforma filosófica de largo plazo de una marca, construida en cuatro dimensiones: atributo, funcional, sensorial y emocional.",
+  "s": 3
+ },
+ {
+  "t": "Rough Scamp",
+  "d": "Boceto o storyboard básico que sintetiza las cuatro dimensiones de la Big Idea antes de redactarla.",
+  "s": 3
+ },
+ {
+  "t": "Tropicalización",
+  "d": "Adaptación de una campaña matriz a múltiples formatos y especificaciones de medios.",
+  "s": 3
+ }
+]

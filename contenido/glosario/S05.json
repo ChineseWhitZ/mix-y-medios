@@ -1,0 +1,62 @@
+[
+{
+"t": "Contexto",
+"d": "Conjunto formado por el entorno (físico o digital) y la ocasión de consumo que moldea la percepción de valor y la decisión de compra (Solomon, 2019).",
+"s": 5
+},
+{
+"t": "ZMOT (Zero Moment of Truth)",
+"d": "Momento previo a la compra en que el consumidor investiga online, típicamente en Google, antes de ver el producto en la góndola o la web.",
+"s": 5
+},
+{
+"t": "FMOT (First Moment of Truth)",
+"d": "Momento en que el consumidor se enfrenta al producto en la góndola o en la página web y decide.",
+"s": 5
+},
+{
+"t": "SMOT (Second Moment of Truth)",
+"d": "Momento de la experiencia de uso del producto, en que el consumidor contrasta rendimiento y expectativa.",
+"s": 5
+},
+{
+"t": "Necesidad",
+"d": "Estado inherente de carencia biológica o psicológica; pertenece al ser humano y no al producto (Kotler & Keller, 2016).",
+"s": 5
+},
+{
+"t": "Deseo",
+"d": "Forma específica que adopta una necesidad, moldeada por la cultura; es lo que el marketing puede influir.",
+"s": 5
+},
+{
+"t": "Modelo P.O.E.",
+"d": "Clasificación de medios en pagados (Paid), propios (Owned) y ganados (Earned), usada para armar la batería mediática.",
+"s": 5
+},
+{
+"t": "Customer journey",
+"d": "Representación del recorrido del consumidor desde la inconsciencia hasta ser embajador de la marca, en cinco etapas y con enfoque omnicanal (Lemon & Verhoef, 2016).",
+"s": 5
+},
+{
+"t": "Consideration set",
+"d": "Grupo pequeño de marcas finalistas que el consumidor evalúa activamente antes de decidir.",
+"s": 5
+},
+{
+"t": "Disonancia cognitiva",
+"d": "Tensión o arrepentimiento tras una compra de alto involucramiento; el consumidor la reduce racionalizando su decisión.",
+"s": 5
+},
+{
+"t": "CAC y LTV",
+"d": "CAC es el costo de adquirir un cliente; LTV (Life Time Value) es el margen neto acumulado que deja durante su relación con la marca.",
+"s": 5
+},
+{
+"t": "WOM (boca a boca)",
+"d": "Recomendación entre personas; canal más poderoso del journey y fuente de medios ganados con costo de adquisición cero.",
+"s": 5
+}
+]

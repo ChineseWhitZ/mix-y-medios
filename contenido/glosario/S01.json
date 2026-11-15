@@ -1,0 +1,62 @@
+[
+ {
+  "t": "Ruido",
+  "d": "Cualquier factor físico, psicológico, semántico o competitivo que distorsiona el mensaje o interfiere en su recepción.",
+  "s": 1
+ },
+ {
+  "t": "Clutter",
+  "d": "Saturación de publicidad de la competencia en un mismo espacio o medio; es el ruido competitivo.",
+  "s": 1
+ },
+ {
+  "t": "Código",
+  "d": "Conjunto de signos, símbolos y reglas compartidas entre emisor y receptor; en marketing se plasma en el Brand Book.",
+  "s": 1
+ },
+ {
+  "t": "Atención selectiva",
+  "d": "Filtro por el cual el receptor solo procesa lo que encaja con sus actitudes, creencias y necesidades.",
+  "s": 1
+ },
+ {
+  "t": "Función fática",
+  "d": "Función del lenguaje que mantiene abierto el canal de contacto, como emails de seguimiento o notificaciones push.",
+  "s": 1
+ },
+ {
+  "t": "KISS",
+  "d": "Principio «Keep It Simple, Stupid»: mensajes claros y directos para reducir el ruido.",
+  "s": 1
+ },
+ {
+  "t": "CPA",
+  "d": "Costo por adquisición: lo que cuesta conseguir un cliente; se dispara cuando el ruido desperdicia presupuesto.",
+  "s": 1
+ },
+ {
+  "t": "Comunicaciones integradas de marketing (CIM)",
+  "d": "Coordinación de todos los canales y herramientas de una marca para transmitir una sola voz y generar sinergia.",
+  "s": 1
+ },
+ {
+  "t": "Mix promocional",
+  "d": "Las seis herramientas de la CIM: publicidad, relaciones públicas, marketing directo, promoción de ventas, venta personal y marketing digital.",
+  "s": 1
+ },
+ {
+  "t": "Retargeting",
+  "d": "Impactar de nuevo a quien ya mostró interés, por ejemplo con un carrito abandonado.",
+  "s": 1
+ },
+ {
+  "t": "Glocalización",
+  "d": "Estrategia en que la sede define el posicionamiento global y las filiales lo ejecutan con sensibilidad local.",
+  "s": 1
+ },
+ {
+  "t": "Transcreación",
+  "d": "Traducir la intención y el impacto de un mensaje, no solo las palabras, para otra cultura.",
+  "s": 1
+ }
+]

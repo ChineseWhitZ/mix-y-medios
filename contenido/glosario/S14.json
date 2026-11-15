@@ -1,0 +1,62 @@
+[
+ {
+  "t": "Feed",
+  "d": "Lo que ves al abrir una red social: publicaciones elegidas para ti por el algoritmo.",
+  "s": 14
+ },
+ {
+  "t": "Algoritmo de redes",
+  "d": "Sistema que decide qué contenido ve cada persona según tiempo de visualización, interacción, guardados y relación.",
+  "s": 14
+ },
+ {
+  "t": "Alcance publicitario",
+  "d": "Cantidad de personas a las que un anuncio puede llegar en una plataforma; no equivale a usuarios activos.",
+  "s": 14
+ },
+ {
+  "t": "Contenido orgánico",
+  "d": "Lo que la marca publica en sus perfiles sin pagar para que se muestre; gratis pero lento.",
+  "s": 14
+ },
+ {
+  "t": "Pilares de contenido",
+  "d": "Ejes temáticos de publicación: educar, entretener, inspirar y vender.",
+  "s": 14
+ },
+ {
+  "t": "Gancho, valor y llamado a la acción",
+  "d": "Estructura del post que funciona: detiene el dedo en tres segundos, aporta algo y dice qué hacer después.",
+  "s": 14
+ },
+ {
+  "t": "UGC",
+  "d": "Contenido generado por usuarios: fotos, videos y reseñas que publican los clientes y funcionan como prueba social.",
+  "s": 14
+ },
+ {
+  "t": "Nano, micro, macro y mega creadores",
+  "d": "Clasificación por seguidores: 1 mil a 10 mil, 10 mil a 100 mil, 100 mil a 1 millón y más de 1 millón.",
+  "s": 14
+ },
+ {
+  "t": "Social paid media",
+  "d": "Publicidad pagada en redes para llegar a un público elegido: edad, lugar, intereses.",
+  "s": 14
+ },
+ {
+  "t": "Público personalizado y similar",
+  "d": "El personalizado usa tus propios contactos; el similar busca personas parecidas a tus mejores clientes.",
+  "s": 14
+ },
+ {
+  "t": "Remarketing y píxel de Meta",
+  "d": "Anuncios a quienes visitaron tu web sin comprar, posibles gracias al píxel, código que avisa quién la visitó.",
+  "s": 14
+ },
+ {
+  "t": "CPM",
+  "d": "Costo por cada mil impresiones; con S/ 280 y 40 000 impresiones es S/ 7.",
+  "s": 14
+ }
+]

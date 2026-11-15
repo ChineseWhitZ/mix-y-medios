@@ -1,0 +1,62 @@
+[
+ {
+  "t": "Relaciones públicas",
+  "d": "Puente de confianza entre una organización y su entorno que gestiona la comunicación para construir y proteger su imagen.",
+  "s": 10
+ },
+ {
+  "t": "Reputación",
+  "d": "Realidad operativa más percepción pública; es el activo competitivo más fuerte y el escudo en una crisis.",
+  "s": 10
+ },
+ {
+  "t": "Stakeholder",
+  "d": "Persona, grupo o entidad que puede afectar a una empresa o ser afectada por sus decisiones.",
+  "s": 10
+ },
+ {
+  "t": "Licencia social",
+  "d": "Aprobación de la comunidad local para operar, más allá de los permisos legales.",
+  "s": 10
+ },
+ {
+  "t": "Greenwashing",
+  "d": "Fingir responsabilidad ecológica en la publicidad para vender más.",
+  "s": 10
+ },
+ {
+  "t": "Validación de terceros",
+  "d": "Respaldo orgánico de expertos, periodistas o influencers que hablan bien de la marca sin que ella lo diga.",
+  "s": 10
+ },
+ {
+  "t": "P.E.N.C.I.L.S.",
+  "d": "Modelo de Kotler y Keller con 7 herramientas de RR. PP.: Publicaciones, Eventos, Noticias, Comunidad, Identidad, Lobby y Social investment.",
+  "s": 10
+ },
+ {
+  "t": "Owned media",
+  "d": "Contenido propio de la marca (blogs, revistas, guías) que educa sin vender.",
+  "s": 10
+ },
+ {
+  "t": "Lobby",
+  "d": "Trato formal, táctico y legal con legisladores y reguladores, basado en datos y evidencia.",
+  "s": 10
+ },
+ {
+  "t": "Social investment",
+  "d": "Responsabilidad corporativa que busca maximizar el impacto positivo y reparar el daño de la operación.",
+  "s": 10
+ },
+ {
+  "t": "Micro-influencer",
+  "d": "Creador con comunidad pequeña pero fiel en un nicho, valorado por su autenticidad y confianza.",
+  "s": 10
+ },
+ {
+  "t": "Embajador de marca",
+  "d": "Creador con relación de largo plazo que comparte valores y defiende la marca incluso en crisis.",
+  "s": 10
+ }
+]

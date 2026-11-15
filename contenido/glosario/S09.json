@@ -1,0 +1,62 @@
+[
+ {
+  "t": "Tiraje",
+  "d": "Número de ejemplares impresos y distribuidos de un medio; es volumen industrial, no audiencia real.",
+  "s": 9
+ },
+ {
+  "t": "Pass-along",
+  "d": "Cantidad de lectores por ejemplar: 2 a 3 en un diario masivo y hasta 8 en una revista premium.",
+  "s": 9
+ },
+ {
+  "t": "Lectoría",
+  "d": "Audiencia total de un medio impreso: tiraje × pass-along. Es la base para calcular el CPM.",
+  "s": 9
+ },
+ {
+  "t": "Efecto halo editorial",
+  "d": "Transferencia de la credibilidad del contenido periodístico al anuncio que lo acompaña.",
+  "s": 9
+ },
+ {
+  "t": "Publirreportaje",
+  "d": "Anuncio que imita la estética editorial para demostrar liderazgo de opinión; por ley lleva la viñeta «Aviso Contratado».",
+  "s": 9
+ },
+ {
+  "t": "Robapáginas",
+  "d": "Formato en la esquina inferior de la página, rodeado por la noticia, con buena relación costo-visibilidad.",
+  "s": 9
+ },
+ {
+  "t": "OOH",
+  "d": "Out of Home: publicidad visual fuera del hogar, incluidos espacios comerciales cerrados (Indoor).",
+  "s": 9
+ },
+ {
+  "t": "OTS",
+  "d": "Opportunity to See: veces que una persona entra en la zona teórica de visibilidad de un soporte; mide probabilidad, no lectura.",
+  "s": 9
+ },
+ {
+  "t": "VAC",
+  "d": "Visibility Adjusted Contact: corrige el OTS según tamaño, velocidad de la vía e iluminación.",
+  "s": 9
+ },
+ {
+  "t": "Efecto paisaje",
+  "d": "Cuando un panel se vuelve parte del entorno y deja de verse; se combate renovando el arte.",
+  "s": 9
+ },
+ {
+  "t": "DOOH",
+  "d": "Digital Out of Home: pantallas digitales que se alquilan en loops de 10 a 15 segundos.",
+  "s": 9
+ },
+ {
+  "t": "pDOOH",
+  "d": "Compra programática de DOOH en tiempo real desde una DSP, con dayparting y creatividades reactivas.",
+  "s": 9
+ }
+]

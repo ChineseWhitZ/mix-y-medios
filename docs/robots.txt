@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://chinesewhitz.github.io/mix-y-medios/sitemap.xml
